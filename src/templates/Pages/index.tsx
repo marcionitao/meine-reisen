@@ -4,7 +4,12 @@ import LinkWrapper from 'components/LinkWrapper'
 
 import * as S from './styles'
 
-export default function AboutTemplate() {
+export type PageTemplateProps = {
+  heading: string
+  body: string
+}
+
+export default function PageTemplate({ heading, body }: PageTemplateProps) {
   return (
     <>
       <S.Content>
@@ -13,15 +18,11 @@ export default function AboutTemplate() {
           <CloseOutline size={32} aria-label="Close" />
         </LinkWrapper>
         {/* // */}
-        <S.Heading>Meine Reisen</S.Heading>
+        <S.Heading>{heading}</S.Heading>
         {/* // */}
         <S.Body>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil quasi
-            ab totam tempore fuga exercitationem reiciendis inventore dolores
-            autem quibusdam dicta, molestiae aut commodi consequuntur itaque,
-            nobis eius! Mollitia, molestias?
-          </p>
+          {/* dangerouslySetInnerHTML serve para renderizar html que pode ter problemas de segurança  */}
+          <div dangerouslySetInnerHTML={{ __html: body }} />
         </S.Body>
         {/* // */}
       </S.Content>
