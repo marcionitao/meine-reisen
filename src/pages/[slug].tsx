@@ -1,4 +1,4 @@
-import { GetPageBySlugQuery, GetPagesQuery } from 'generated/graphql'
+import { GetPageBySlugQuery, GetPagesQuery } from 'graphql/generated/graphql'
 import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import PageTemplate, { PageTemplateProps } from 'templates/Pages'

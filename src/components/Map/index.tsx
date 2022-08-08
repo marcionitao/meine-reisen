@@ -6,7 +6,7 @@ type Place = {
   slug: string
   location: {
     latitude: number
-    longetide: number
+    longitude: number
   }
 }
 
@@ -27,11 +27,11 @@ const Map = ({ places }: MapProps) => {
       />
 
       {places?.map(({ id, name, slug, location }) => {
-        const { latitude, longetide } = location
+        const { latitude, longitude } = location
         return (
           <Marker
             key={`place-${id}`}
-            position={[latitude, longetide]}
+            position={[latitude, longitude]}
             title={name}
           />
         )

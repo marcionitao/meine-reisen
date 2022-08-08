@@ -1,20 +1,24 @@
-import LinkWrapper from 'components/LinkWrapper'
-import dynamic from 'next/dynamic'
-// importando icon
-import { InfoOutline } from '@styled-icons/evaicons-outline/InfoOutline'
+import { MapProps } from 'components/Map'
+import client from 'graphql/client'
+import { GetPlacesQuery } from 'graphql/generated/graphql'
+import { GET_PLACES } from 'graphql/queries'
+import { GetStaticProps } from 'next'
+import HomeTemplate from 'templates/Home'
 
-const Map = dynamic(() => import('components/Map'), {
-  ssr: false
-})
+export default function Home({ places }: MapProps) {
+  return <HomeTemplate places={places} />
+}
 
-export default function Home() {
-  return (
-    <>
-      <LinkWrapper href={'/about'}>
-        {/* usando icon */}
-        <InfoOutline size={32} aria-label="About" />
-      </LinkWrapper>
-      <Map />
-    </>
-  )
+// GERA O CONTEÚDO DAS PAGINAS
+export const getStaticProps: GetStaticProps = async () => {
+  // fazendo requisição para buscar os dados da query slug pretendiada
+  const { places } = await client.request<GetPlacesQuery>(GET_PLACES, {
+    //slug: params?.slug as string
+  })
+
+  return {
+    props: {
+      places
+    }
+  }
 }
