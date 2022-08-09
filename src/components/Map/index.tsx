@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 
 type Place = {
@@ -15,6 +16,8 @@ export type MapProps = {
 }
 
 const Map = ({ places }: MapProps) => {
+  // usando o router para redirecionar para a pagina clicada
+  const router = useRouter()
   return (
     <MapContainer
       center={[0, 0]}
@@ -33,6 +36,11 @@ const Map = ({ places }: MapProps) => {
             key={`place-${id}`}
             position={[latitude, longitude]}
             title={name}
+            eventHandlers={{
+              click: () => {
+                router.push(`/place/${slug}`)
+              }
+            }}
           />
         )
       })}
