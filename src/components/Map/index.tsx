@@ -21,7 +21,7 @@ const Map = ({ places }: MapProps) => {
   return (
     <MapContainer
       center={[0, 0]}
-      zoom={3}
+      zoom={4}
       style={{ height: '100%', width: '100%' }}
     >
       <TileLayer
