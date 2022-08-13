@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
-import { MapContainer, Marker, TileLayer } from 'react-leaflet'
+import { MapConsumer, MapContainer, Marker, TileLayer } from 'react-leaflet'
+import * as S from './styles'
 
 type Place = {
   id: string
@@ -37,29 +38,51 @@ const Map = ({ places }: MapProps) => {
   // usando o router para redirecionar para a pagina clicada
   const router = useRouter()
   return (
-    <MapContainer
-      center={[0, 0]}
-      zoom={2}
-      style={{ height: '100%', width: '100%' }}
-    >
-      <CustomTileLayer />
+    <S.MapWrapper>
+      <MapContainer
+        center={[0, 0]}
+        zoom={2}
+        minZoom={2}
+        maxBounds={[
+          [-180, 180],
+          [180, -180]
+        ]}
+        style={{ height: '100%', width: '100%' }}
+      >
+        {/* definindo zoom do mapa para smartphone */}
+        <MapConsumer>
+          {(map) => {
+            const width =
+              window.innerWidth ||
+              document.documentElement.clientWidth ||
+              document.body.clientWidth
 
-      {places?.map(({ id, name, slug, location }) => {
-        const { latitude, longitude } = location
-        return (
-          <Marker
-            key={`place-${id}`}
-            position={[latitude, longitude]}
-            title={name}
-            eventHandlers={{
-              click: () => {
-                router.push(`/place/${slug}`)
-              }
-            }}
-          />
-        )
-      })}
-    </MapContainer>
+            if (width < 768) {
+              map.setMinZoom(1)
+            }
+            return null
+          }}
+        </MapConsumer>
+
+        <CustomTileLayer />
+
+        {places?.map(({ id, name, slug, location }) => {
+          const { latitude, longitude } = location
+          return (
+            <Marker
+              key={`place-${id}`}
+              position={[latitude, longitude]}
+              title={name}
+              eventHandlers={{
+                click: () => {
+                  router.push(`/place/${slug}`)
+                }
+              }}
+            />
+          )
+        })}
+      </MapContainer>
+    </S.MapWrapper>
   )
 }
 
