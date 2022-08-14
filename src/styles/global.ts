@@ -1,4 +1,5 @@
 /* eslint--no-ignore */
+import 'nprogress/nprogress.css'
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
@@ -40,6 +41,16 @@ const GlobalStyle = createGlobalStyle`
 
   a {
     color: var(--highlight);
+  }
+
+  #nprogress {
+    position: relative;
+    z-index: 9999999;
+  }
+
+  #nprogress .bar {
+    background: #e20e8d !important;
+    height: 4px;
   }
 `
 

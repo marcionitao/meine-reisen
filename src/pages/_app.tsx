@@ -1,14 +1,30 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 
-import NextNProgress from 'nextjs-progressbar'
+import NProgress from 'nprogress'
+import { useEffect } from 'react'
 
 import { DefaultSeo } from 'next-seo'
 import SEO from '../../next-seo.config'
 
+import { useRouter } from 'next/router'
 import GlobalStyle from '../styles/global'
 
+NProgress.configure({
+  showSpinner: false,
+  trickleSpeed: 200
+})
+
 export default function MyApp({ Component, pageProps }: AppProps) {
+  // quando mudar de rota, o nprogress é iniciado
+  const router = useRouter()
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', () => NProgress.start())
+    router.events.on('routeChangeComplete', () => NProgress.done())
+    router.events.on('routeChangeError', () => NProgress.done())
+  }, [])
+  //
   return (
     <>
       <Head>
@@ -25,13 +41,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <DefaultSeo {...SEO} />
       <GlobalStyle />
-      <NextNProgress
-        color="#f231a5"
-        startPosition={0.3}
-        stopDelayMs={200}
-        height={3}
-        showOnShallow={true}
-      />
       <Component {...pageProps} />
     </>
   )
